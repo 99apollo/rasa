@@ -1,0 +1,98 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+entities:
+  - library_name
+  - book_name_search
+  - book_name_borrow
+  - table_seat_number
+  - table_floor
+
+intents:
+- affirm
+- deny
+- greet
+- table_seat
+- input_library
+- book_search
+- input_book_name_search
+- book_borrow
+- input_book_name_borrow
+- table_info
+- table_rent
+- input_table_floor
+
+
+slots:
+  library_name_slot:
+    type: text
+    influence_conversation: true
+  book_name_rent_slot:
+    type: text
+    influence_conversation: true
+  book_name_search_slot:
+    type: text
+    influence_conversation: true
+  table_floor_slot:
+    type: text
+    influence_conversation: true
+  table_seat_slot:
+    type: text
+    influence_conversation: true
+  
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_information_about_library_chat_bot:
+  - text: I'm library chatbot i can help you with, finding books, renting books, table info, renting table, event info, event add.
+  utter_ask_library_select:
+  - text: Do you want to know information about a specific library? Or information of the entire library?
+  utter_show_library_list:
+  - text: I have DB about main, law, donglibrary. which library you want to select? Or all of it?
+  utter_write_book_name:
+  - text: Could you tell me about the book name you want to know?
+  utter_unselected_library_search_activate:
+  - text: You choose all DB.
+  utter_borrowing_book_end:
+  - text: this is the end of borrowing book. thank you for using us.
+  utter_renting_table_end:
+  - text: this is the end of renting table. thank you for using us.
+  utter_information_table_end:
+  - text: this is the end of table information. thank you for using us.
+  utter_write_table_info_floor:
+  - text: input table floor information
+  utter_write_table_info_seat:
+  - text: input table seat information
+
+actions:
+- utter_information_about_library_chat_bot
+- utter_ask_library_select
+- utter_show_library_list
+- action_find_libaray
+- utter_write_book_name
+- action_find_book_info_selected
+- utter_unselected_library_search_activate
+- utter_borrowing_book_end
+- action_find_book_borrow_selected
+- action_get_table_information
+- action_get_table_rent
+- action_table_floor
+- utter_renting_table_end
+- utter_write_table_info_seat
+- utter_write_table_info_floor
+- action_find_libaray_table
+- utter_information_table_end
+- action_table_seat

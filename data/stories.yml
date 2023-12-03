@@ -1,0 +1,43 @@
+version: "2.0"
+
+stories:
+
+- story: greet and library select function select
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+  - action: action_find_libaray
+
+- story: selected library book search
+  steps:
+  - intent: book_search
+  - action: utter_write_book_name
+  - intent: input_book_name_search
+  - action: action_find_book_info_selected
+
+- story: selected library book borrow
+  steps:
+  - intent: book_borrow
+  - action: utter_write_book_name
+  - intent: input_book_name_borrow
+  - action: action_find_book_borrow_selected
+
+- story: selected library table information
+  steps:
+  - intent: table_info
+  - action: action_get_table_information
+  - action: utter_information_table_end
+
+- story: selected library table rent
+  steps:
+  - intent: table_rent
+  - action: utter_write_table_info_floor
+  - intent: input_table_floor
+  - action: action_table_floor
+  - action: utter_write_table_info_seat
+  - intent: table_seat
+  - action: action_table_seat
+  - action: action_get_table_rent
+  - action: utter_renting_table_end
