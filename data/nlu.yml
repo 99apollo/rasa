@@ -65,6 +65,7 @@ nlu:
     - [main](library_name) library
     - want to select [main](library_name) library
     - select [main](library_name) library
+    - choose [main](library_name) library
 - intent: book_borrow
   examples: |
     - I want to borrow a book
@@ -122,12 +123,25 @@ nlu:
     - renting table
     - choose renting table
     - about renting table
-- intent: table_floor_seat
+- intent: input_table_floor
   examples: |
-    - table locate at [2](table_floor) floor, seat [1](table_seat_number)
-    - Seat [2](table_seat_number) on the [2](table_floor) floor.
-    - floor [2](table_floor), [3](table_seat_number) seat
-    - i want floor [3](table_floor), [15](table_seat_number) seat
-    - rent seat [5](table_seat_number), floor [1](table_floor)
-    - locate at floor[4]](table_floor), [51]](table_seat_number) seat
-    - [2](table_seat_number) floor, seat [2](table_floor)
+    - table locate at [2](table_floor) floor
+    - located in [1](table_floor) floor
+    - floor is [3](table_floor)
+    - floor [2](table_floor)
+    - [1](table_floor) floor
+    - inforamtion about table floor is [1](table_floor)
+    - [7](table_floor) floor is where the table is situated
+    - [2](table_floor) floor
+- intent: table_seat
+  examples: |
+    - table seat number is [1](table_seat_number)
+    - seat number [1](table_seat_number)
+    - [3](table_seat_number) is table seat number
+    - seat number [2](table_seat_number) is table seat
+    - table seat number [4](table_seat_number) is what i want
+    - I need a seat at [5](table_seat_number)
+    - Is there a table seat with number [6](table_seat_number)?
+    - Tell me about table seat [7](table_seat_number)
+    - [8](table_seat_number) is the seat I'm looking fo
+    - seat number [2](table_seat_number)

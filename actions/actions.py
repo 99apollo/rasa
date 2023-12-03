@@ -281,57 +281,57 @@ class ActionGetTableInformation(Action):
 
         return []
     
-# class ActionGetTableRent(Action):
-#     def name(self) -> Text:
-#         return "action_get_table_rent"
+class ActionGetTableRent(Action):
+    def name(self) -> Text:
+        return "action_get_table_rent"
 
-#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#         # 여기에 테이블 렌트 정보를 얻는 로직을 구현합니다.
-#         # 테이블 렌트에 관련된 정보를 데이터베이스에서 조회하거나 다른 소스에서 가져오는 등의 작업이 이루어집니다.
-#         print("ActionGetTableRent run")    
-#         library_name = tracker.get_slot("library_name_slot")
-#         table_floor = tracker.get_slot("table_floor_slot")
-#         table_seat = tracker.get_slot("table_seat_slot")
-#         if table_floor=="unknown":
-#             dispatcher.utter_message(f"enter table floor first!")
-#             return [SlotSet("table_seat_slot", table_seat)]
-#         # MySQL 서버에 연결
-#         connection = mysql.connector.connect(
-#             host="localhost",
-#             user="root",
-#             password="apollo~1207",
-#             database="library"
-#         )
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        # 여기에 테이블 렌트 정보를 얻는 로직을 구현합니다.
+        # 테이블 렌트에 관련된 정보를 데이터베이스에서 조회하거나 다른 소스에서 가져오는 등의 작업이 이루어집니다.
+        print("ActionGetTableRent run")    
+        library_name = tracker.get_slot("library_name_slot")
+        table_floor = tracker.get_slot("table_floor_slot")
+        table_seat = tracker.get_slot("table_seat_slot")
+        if table_floor=="unknown":
+            dispatcher.utter_message(f"enter table floor first!")
+            return [SlotSet("table_seat_slot", table_seat)]
+        # MySQL 서버에 연결
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="apollo~1207",
+            database="library"
+        )
         
-#         try:
-#             cursor = connection.cursor()
+        try:
+            cursor = connection.cursor()
 
-#             if library_name == "all":
-#                 dispatcher.utter_message(f"select library first!")
-#                 return [SlotSet("table_seat_slot", table_seat)]
-#             else:
-#                 # 특정 도서관의 테이블 정보 조회
-#                 ##UPDATE book SET book_rental = 0 WHERE book_ID = {book_id}
-#                 cursor.execute(f"UPDATE `library`.`table` SET `table_available` = 0 WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
-#                 connection.commit()
+            if library_name == "all":
+                dispatcher.utter_message(f"select library first!")
+                return [SlotSet("table_seat_slot", table_seat)]
+            else:
+                # 특정 도서관의 테이블 정보 조회
+                ##UPDATE book SET book_rental = 0 WHERE book_ID = {book_id}
+                cursor.execute(f"UPDATE `library`.`table` SET `table_available` = 0 WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
+                connection.commit()
             
-#             # 업데이트된 테이블 정보 조회
-#             cursor.execute(f"SELECT * FROM `library`.`table` WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
-#             updated_table_info = cursor.fetchall()
+            # 업데이트된 테이블 정보 조회
+            cursor.execute(f"SELECT * FROM `library`.`table` WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
+            updated_table_info = cursor.fetchall()
 
-#             if updated_table_info:
-#                 # 테이블 렌트 정보 출력
-#                 for row in updated_table_info:
-#                     dispatcher.utter_message(f"Table ID: {row[0]}, Library: {row[1]}, Floor: {row[2]}, Table seat: {row[3]} is currently rented.")
-#             else:
-#                 # 대여 중인 테이블이 없는 경우
-#                 dispatcher.utter_message(f"No rented table information found for {library_name} library on floor {table_floor} and table seat {table_seat}.")
+            if updated_table_info:
+                # 테이블 렌트 정보 출력
+                for row in updated_table_info:
+                    dispatcher.utter_message(f"Table ID: {row[0]}, Library: {row[1]}, Floor: {row[2]}, Table seat: {row[3]} is currently rented.")
+            else:
+                # 대여 중인 테이블이 없는 경우
+                dispatcher.utter_message(f"No rented table information found for {library_name} library on floor {table_floor} and table seat {table_seat}.")
 
-#         finally:
-#             # 연결 종료
-#             connection.close()
+        finally:
+            # 연결 종료
+            connection.close()
 
-#         return [SlotSet("table_seat_slot", table_seat)]
+        return [SlotSet("table_seat_slot", table_seat)]
 
 
 class ActionTableFloor(Action):
@@ -366,7 +366,7 @@ class ActionTableSeat(Action):
         intent = tracker.latest_message['intent'].get('name')
         print(f"인식된 의도: {intent}")
         print("ActionTableSeat run")     
-        table_seat = next(tracker.get_latest_entity_values("table_seat"), "unknown")
+        table_seat = next(tracker.get_latest_entity_values("table_seat_number"), "unknown")
         library_name = tracker.get_slot("library_name_slot")
         # 예시: 테이블 층수 정보를 가져와서 dispatcher를 통해 출력
         if library_name=="all":
@@ -377,54 +377,54 @@ class ActionTableSeat(Action):
 
         return [SlotSet("table_seat_slot",table_seat)]
 
-class ActionGetTableRent(Action):
-    def name(self) -> Text:
-        return "action_get_table_rent"
+# class ActionGetTableRent(Action):
+#     def name(self) -> Text:
+#         return "action_get_table_rent"
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # 여기에 테이블 렌트 정보를 얻는 로직을 구현합니다.
-        # 테이블 렌트에 관련된 정보를 데이터베이스에서 조회하거나 다른 소스에서 가져오는 등의 작업이 이루어집니다.
-        print("ActionGetTableRent run")    
-        library_name = tracker.get_slot("library_name_slot")
-        table_floor = next(tracker.get_latest_entity_values("table_floor"), "unknown")
-        table_seat = next(tracker.get_latest_entity_values("table_seat_number"), "unknown")
-        if table_floor=="unknown":
-            dispatcher.utter_message(f"enter table floor first!")
-            return []
-        # MySQL 서버에 연결
-        connection = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="apollo~1207",
-            database="library"
-        )
+#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#         # 여기에 테이블 렌트 정보를 얻는 로직을 구현합니다.
+#         # 테이블 렌트에 관련된 정보를 데이터베이스에서 조회하거나 다른 소스에서 가져오는 등의 작업이 이루어집니다.
+#         print("ActionGetTableRent run")    
+#         library_name = tracker.get_slot("library_name_slot")
+#         table_floor = next(tracker.get_latest_entity_values("table_floor"), "unknown")
+#         table_seat = next(tracker.get_latest_entity_values("table_seat_number"), "unknown")
+#         if table_floor=="unknown":
+#             dispatcher.utter_message(f"enter table floor first!")
+#             return []
+#         # MySQL 서버에 연결
+#         connection = mysql.connector.connect(
+#             host="localhost",
+#             user="root",
+#             password="apollo~1207",
+#             database="library"
+#         )
         
-        try:
-            cursor = connection.cursor()
+#         try:
+#             cursor = connection.cursor()
 
-            if library_name == "all":
-                dispatcher.utter_message(f"select library first!")
-                return []
-            else:
-                # 특정 도서관의 테이블 정보 조회
-                ##UPDATE book SET book_rental = 0 WHERE book_ID = {book_id}
-                cursor.execute(f"UPDATE `library`.`table` SET `table_available` = 0 WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
-                connection.commit()
+#             if library_name == "all":
+#                 dispatcher.utter_message(f"select library first!")
+#                 return []
+#             else:
+#                 # 특정 도서관의 테이블 정보 조회
+#                 ##UPDATE book SET book_rental = 0 WHERE book_ID = {book_id}
+#                 cursor.execute(f"UPDATE `library`.`table` SET `table_available` = 0 WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
+#                 connection.commit()
             
-            # 업데이트된 테이블 정보 조회
-            cursor.execute(f"SELECT * FROM `library`.`table` WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
-            updated_table_info = cursor.fetchall()
+#             # 업데이트된 테이블 정보 조회
+#             cursor.execute(f"SELECT * FROM `library`.`table` WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
+#             updated_table_info = cursor.fetchall()
 
-            if updated_table_info:
-                # 테이블 렌트 정보 출력
-                for row in updated_table_info:
-                    dispatcher.utter_message(f"Table ID: {row[0]}, Library: {row[1]}, Floor: {row[2]}, Table seat: {row[3]} is currently rented.")
-            else:
-                # 대여 중인 테이블이 없는 경우
-                dispatcher.utter_message(f"No rented table information found for {library_name} library on floor {table_floor} and table seat {table_seat}.")
+#             if updated_table_info:
+#                 # 테이블 렌트 정보 출력
+#                 for row in updated_table_info:
+#                     dispatcher.utter_message(f"Table ID: {row[0]}, Library: {row[1]}, Floor: {row[2]}, Table seat: {row[3]} is currently rented.")
+#             else:
+#                 # 대여 중인 테이블이 없는 경우
+#                 dispatcher.utter_message(f"No rented table information found for {library_name} library on floor {table_floor} and table seat {table_seat}.")
 
-        finally:
-            # 연결 종료
-            connection.close()
+#         finally:
+#             # 연결 종료
+#             connection.close()
 
-        return [SlotSet("table_seat_slot", table_seat), SlotSet("table_floor_slot",table_floor)]
+#         return [SlotSet("table_seat_slot", table_seat), SlotSet("table_floor_slot",table_floor)]
