@@ -30,14 +30,45 @@ stories:
   - action: action_get_table_information
   - action: utter_information_table_end
 
+# - story: selected library table rent
+#   steps:
+#   - intent: table_rent
+#   - action: utter_write_table_info_floor
+#   - intent: input_table_floor
+#   - action: action_table_floor
+#   - action: utter_write_table_info_seat
+#   - intent: table_seat
+#   - action: action_table_seat
+#   - action: action_get_table_rent
+#   - action: utter_renting_table_end
+
 - story: selected library table rent
   steps:
   - intent: table_rent
   - action: utter_write_table_info_floor
-  - intent: input_table_floor
-  - action: action_table_floor
-  - action: utter_write_table_info_seat
-  - intent: table_seat
-  - action: action_table_seat
+  - intent: table_floor_seat
   - action: action_get_table_rent
+  - action: utter_renting_table_end
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+    entities:
+    - library_name: main
+  - action: action_find_libaray
+  - slot_was_set:
+    - library_name_slot: main
+  - intent: table_rent
+  - action: utter_write_table_info_floor
+  - intent: table_floor_seat
+    entities:
+    - table_floor: '2'
+    - table_seat_number: '2'
+  - action: action_get_table_rent
+  - slot_was_set:
+    - table_seat_slot: '2'
+  - slot_was_set:
+    - table_floor_slot: '2'
   - action: utter_renting_table_end

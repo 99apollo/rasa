@@ -1,6 +1,4 @@
 version: "2.0"
-
-
 nlu:
 - intent: greet
   examples: |
@@ -17,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: affirm
   examples: |
     - Yes
@@ -35,7 +32,6 @@ nlu:
     - Absolutely right
     - Yes, please
     - Absolutely sure
-
 - intent: deny
   examples: |
     - No
@@ -53,7 +49,6 @@ nlu:
     - I don't want to
     - I'm not up for it
     - I don't agree
-
 - intent: input_library
   examples: |
     - Can you help me find information about the [main](library_name) library?
@@ -69,7 +64,7 @@ nlu:
     - Choose [law](library_name) library
     - [main](library_name) library
     - want to select [main](library_name) library
-
+    - select [main](library_name) library
 - intent: book_borrow
   examples: |
     - I want to borrow a book
@@ -78,7 +73,6 @@ nlu:
     - book borrow
     - borrowing book
     - book borrowing
-
 - intent: book_search
   examples: |
     - Find books for me
@@ -89,7 +83,6 @@ nlu:
     - search book
     - searching book
     - finding book
-
 - intent: input_book_name_search
   examples: |
     - search [Introduction to Data Science](book_name_search)
@@ -102,7 +95,6 @@ nlu:
     - [Introduction to Data Science](book_name_search) search, please.
     - search what do you know about [Harry poter](book_name_search).
     - search on [Harry poter](book_name_search)
-
 - intent: input_book_name_borrow
   examples: |
     - I want to borrow [Harry poter](book_name_borrow)
@@ -113,7 +105,6 @@ nlu:
     - I'd like to borrow [Harry poter](book_name_borrow)
     - Please borrow [Harry poter](book_name_borrow)
     - How can I borrow [Harry poter](book_name_borrow)
-
 - intent: table_info
   examples: |
     - table info
@@ -121,7 +112,6 @@ nlu:
     - Want to know about table info
     - show me table info
     - select table info
-
 - intent: table_rent
   examples: |
     - table rent
@@ -132,26 +122,12 @@ nlu:
     - renting table
     - choose renting table
     - about renting table
-    
-- intent: input_table_floor
+- intent: table_floor_seat
   examples: |
-    - table locate at [2](table_floor) floor
-    - located in [1](table_floor) floor
-    - floor is [3](table_floor)
-    - floor [2](table_floor)
-    - [1](table_floor) floor 
-    - inforamtion about table floor is [1](table_floor)
-    - [7](table_floor) floor is where the table is situated
-
-- intent: table_seat
-  examples: |
-    - table seat number is [1](table_seat_number)
-    - seat number [1](table_seat_number)
-    - seat [9](table_seat_number)
-    - seat number is [10](table_seat_number)
-    - seat number [2](table_seat_number) is table seat
-    - table seat number [4](table_seat_number) is what i want
-    - I need a seat at [5](table_seat_number)
-    - Is there a table seat with number [6](table_seat_number)?
-    - Tell me about table seat [7](table_seat_number)
-    - [8](table_seat_number) is the seat I'm looking for
+    - table locate at [2](table_floor) floor, seat [1](table_seat_number)
+    - Seat [2](table_seat_number) on the [2](table_floor) floor.
+    - floor [2](table_floor), [3](table_seat_number) seat
+    - i want floor [3](table_floor), [15](table_seat_number) seat
+    - rent seat [5](table_seat_number), floor [1](table_floor)
+    - locate at floor[4]](table_floor), [51]](table_seat_number) seat
+    - [2](table_seat_number) floor, seat [2](table_floor)

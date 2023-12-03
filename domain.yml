@@ -2,29 +2,26 @@ version: '2.0'
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-
-entities:
-  - library_name
-  - book_name_search
-  - book_name_borrow
-  - table_seat_number
-  - table_floor
-
 intents:
 - affirm
+- book_borrow
+- book_search
 - deny
 - greet
-- table_seat
-- input_library
-- book_search
-- input_book_name_search
-- book_borrow
 - input_book_name_borrow
+- input_book_name_search
+- input_library
+- input_table_floor
+- table_floor_seat
 - table_info
 - table_rent
-- input_table_floor
-
-
+- table_seat
+entities:
+- table_seat_number
+- library_name
+- table_floor
+- book_name_search
+- book_name_borrow
 slots:
   library_name_slot:
     type: text
@@ -41,7 +38,6 @@ slots:
   table_seat_slot:
     type: text
     influence_conversation: true
-  
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -76,23 +72,22 @@ responses:
   - text: input table floor information
   utter_write_table_info_seat:
   - text: input table seat information
-
 actions:
-- utter_information_about_library_chat_bot
-- utter_ask_library_select
-- utter_show_library_list
-- action_find_libaray
-- utter_write_book_name
-- action_find_book_info_selected
-- utter_unselected_library_search_activate
-- utter_borrowing_book_end
 - action_find_book_borrow_selected
+- action_find_book_info_selected
+- action_find_libaray
+- action_find_libaray_table
 - action_get_table_information
 - action_get_table_rent
 - action_table_floor
-- utter_renting_table_end
-- utter_write_table_info_seat
-- utter_write_table_info_floor
-- action_find_libaray_table
-- utter_information_table_end
 - action_table_seat
+- utter_ask_library_select
+- utter_borrowing_book_end
+- utter_information_about_library_chat_bot
+- utter_information_table_end
+- utter_renting_table_end
+- utter_show_library_list
+- utter_unselected_library_search_activate
+- utter_write_book_name
+- utter_write_table_info_floor
+- utter_write_table_info_seat
