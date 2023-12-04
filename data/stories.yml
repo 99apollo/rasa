@@ -10,19 +10,6 @@ stories:
   - intent: input_library
   - action: action_find_libaray
 
-- story: selected library book search
-  steps:
-  - intent: book_search
-  - action: utter_write_book_name
-  - intent: input_book_name_search
-  - action: action_find_book_info_selected
-
-- story: selected library book borrow
-  steps:
-  - intent: book_borrow
-  - action: utter_write_book_name
-  - intent: input_book_name_borrow
-  - action: action_find_book_borrow_selected
 
 - story: selected library table information
   steps:
@@ -103,3 +90,90 @@ stories:
   - slot_was_set:
     - table_seat_slot: '2'
   - action: utter_renting_table_end
+
+- story: interactive_story_2
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+    entities:
+    - library_name: main
+  - action: action_find_libaray
+  - slot_was_set:
+    - library_name_slot: main
+  - intent: book_search
+  - action: utter_write_book_name
+  - intent: input_book_name_search
+    entities:
+    - book_name_search: Harry poter
+  - action: action_find_book_info_selected
+
+- story: interactive_story_3
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+    entities:
+    - library_name: main
+  - action: action_find_libaray
+  - slot_was_set:
+    - library_name_slot: main
+  - intent: book_borrow
+  - action: utter_write_book_name
+  - intent: input_book_name_borrow
+    entities:
+    - book_name_borrow: Justice
+  - action: action_find_book_borrow_selected
+
+- story: interactive_story_4
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+    entities:
+    - library_name: main
+  - action: action_find_libaray
+  - slot_was_set:
+    - library_name_slot: main
+  - intent: table_info
+  - action: action_get_table_information
+  - action: utter_information_table_end
+
+- story: interactive_story_5
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+    entities:
+    - library_name: main
+  - action: action_find_libaray
+  - slot_was_set:
+    - library_name_slot: main
+  - intent: event_info
+  - action: action_event_info
+  - action: utter_event_info_end
+
+- story: interactive_story_6
+  steps:
+  - intent: greet
+  - action: utter_information_about_library_chat_bot
+  - action: utter_show_library_list
+  - intent: input_library
+    entities:
+    - library_name: main
+  - action: action_find_libaray
+  - slot_was_set:
+    - library_name_slot: main
+  - intent: event_add
+  - action: utter_enter_event_name
+  - intent: input_event_name
+  - action: action_event_name
+  - action: utter_enter_event_date
+  - intent: input_event_date
+  - action: action_event_date
+  - action: action_event_add
+  - action: utter_event_end

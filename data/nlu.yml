@@ -66,6 +66,7 @@ nlu:
     - want to select [main](library_name) library
     - select [main](library_name) library
     - choose [main](library_name) library
+    - select [main](library_name)
 - intent: book_borrow
   examples: |
     - I want to borrow a book
@@ -74,6 +75,8 @@ nlu:
     - book borrow
     - borrowing book
     - book borrowing
+    - i want to boorow book
+    - borrow books
 - intent: book_search
   examples: |
     - Find books for me
@@ -84,28 +87,39 @@ nlu:
     - search book
     - searching book
     - finding book
+    - finding books
 - intent: input_book_name_search
   examples: |
     - search [Introduction to Data Science](book_name_search)
     - search about [Introduction to Data Science](book_name_search)
     - [Introduction to Data Science](book_name_search) search
     - search for [Harry poter](book_name_search)
-    - search information about [Harry poter](book_name_search)?
+    - search information about [The Hunger Games](book_name_search)
     - search information on [Introduction to Data Science](book_name_search)?
     - Can you search [Introduction to Data Science](book_name_search). Tell me more.
     - [Introduction to Data Science](book_name_search) search, please.
     - search what do you know about [Harry poter](book_name_search).
     - search on [Harry poter](book_name_search)
+    - information about [Harry poter](book_name_search)
+    - information about [Justice](book_name_search)
+    - search about [The Alchemist](book_name_search)
+    - information about [The Lord of the Rings](book_name_search)
 - intent: input_book_name_borrow
   examples: |
-    - I want to borrow [Harry poter](book_name_borrow)
+    - I want to borrow [The Alchemist](book_name_borrow)
     - Can i borrow [Harry poter](book_name_borrow)
     - Is it possilbe to borrow [Harry poter](book_name_borrow)
     - borrow [Harry poter](book_name_borrow)
-    - May I borrow [Harry poter](book_name_borrow)
+    - May I borrow [The Hunger Games](book_name_borrow)
     - I'd like to borrow [Harry poter](book_name_borrow)
     - Please borrow [Harry poter](book_name_borrow)
     - How can I borrow [Harry poter](book_name_borrow)
+    - i want to borrow [Justice](book_name_borrow)
+    - i want to borrow [The Great Gatsby](book_name_borrow)
+    - Please borrow [To Kill a Mockingbird](book_name_borrow)
+    - Can i borrow [The Catcher in the Rye](book_name_borrow)
+    - How can I borrow [The Da Vinci Code](book_name_borrow)
+    - borrow [Justice](book_name_borrow)
 - intent: table_info
   examples: |
     - table info

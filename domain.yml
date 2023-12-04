@@ -17,11 +17,11 @@ intents:
 - table_rent
 - table_seat
 entities:
-- table_seat_number
 - library_name
-- table_floor
-- book_name_search
 - book_name_borrow
+- book_name_search
+- table_seat_number
+- table_floor
 slots:
   library_name_slot:
     type: text
@@ -53,7 +53,7 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
   utter_information_about_library_chat_bot:
-  - text: I'm library chatbot i can help you with, finding books, renting books, table info, renting table, event info, event add.
+  - text: I'm library chatbot i can help you with, finding books, borrowing books, table info, renting table, event info, event add.
   utter_ask_library_select:
   - text: Do you want to know information about a specific library? Or information of the entire library?
   utter_show_library_list:
