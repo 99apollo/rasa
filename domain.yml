@@ -7,30 +7,30 @@ intents:
 - book_borrow
 - book_search
 - deny
+- event_add
+- event_info
+- good_bye
 - greet
 - input_book_name_borrow
 - input_book_name_search
+- input_event_date
+- input_event_name
 - input_library
 - input_table_floor
+- input_user_id
 - table_floor_seat
 - table_info
 - table_rent
 - table_seat
-- event_info
-- event_add
-- input_event_name
-- input_event_date
-- good_bye
-- input_user_id
 entities:
+- user_id
+- event_name
+- event_date
 - library_name
 - book_name_borrow
 - book_name_search
 - table_seat_number
 - table_floor
-- user_id
-- event_name
-- event_date
 slots:
   library_name_slot:
     type: text
@@ -101,6 +101,11 @@ responses:
   utter_event_info_end:
   - text: this is end of event information.
 actions:
+- action_event_add
+- action_event_date
+- action_event_info
+- action_event_name
+- action_event_user_id
 - action_find_book_borrow_selected
 - action_find_book_info_selected
 - action_find_libaray
@@ -111,6 +116,11 @@ actions:
 - action_table_seat
 - utter_ask_library_select
 - utter_borrowing_book_end
+- utter_enter_event_date
+- utter_enter_event_name
+- utter_enter_user_id
+- utter_event_info_end
+- utter_good_bye
 - utter_information_about_library_chat_bot
 - utter_information_table_end
 - utter_renting_table_end
@@ -119,13 +129,3 @@ actions:
 - utter_write_book_name
 - utter_write_table_info_floor
 - utter_write_table_info_seat
-- action_event_info
-- utter_event_info_end
-- utter_enter_event_name
-- action_event_name
-- utter_enter_event_date
-- action_event_date
-- action_event_add
-- utter_good_bye
-- utter_enter_user_id
-- action_event_user_id

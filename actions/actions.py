@@ -50,7 +50,7 @@ class ActionFindLibrary(Action):
         tracker.slots["library_name_slot"] = library_name
 
         dispatcher.utter_message(f"Searching for information about {library_name}.")
-        dispatcher.utter_message(f"what do you want to do? i can do finding books, renting books, table info, renting table, event info, event add")
+        dispatcher.utter_message(f"what do you want to do? i can do finding books, borrowing books, table info, renting table, event info, event add")
         if library_name!="main" and library_name!="law" :
             library_name="all"
         return [SlotSet("library_name_slot",library_name)]
@@ -91,7 +91,7 @@ class ActionFindBookInfoSelected(Action):
         library_name = tracker.get_slot("library_name_slot")
         
         
-        if library_name=="all":
+        if library_name=="all" or library_name=="none" or library_name=="null":
             # MySQL 서버에 연결
             connection1 = mysql.connector.connect(
                 host="localhost",
@@ -428,3 +428,85 @@ class ActionTableSeat(Action):
 #             connection.close()
 
 #         return [SlotSet("table_seat_slot", table_seat), SlotSet("table_floor_slot",table_floor)]
+
+
+class ActionEventUserID(Action):
+    def name(self) -> Text:
+        return "action_event_user_id"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        # Your custom action logic for event user ID
+        user_id = tracker.get_slot("user_id")
+        # Perform actions based on the user ID
+        dispatcher.utter_message(text=f"User ID: {user_id}")
+
+        return []
+    
+class ActionEventDate(Action):
+    def name(self) -> Text:
+        return "action_event_date"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        # Your custom action logic for event date
+        event_date = tracker.get_slot("event_date")
+        # Perform actions based on the event date
+        dispatcher.utter_message(text=f"Event date: {event_date}")
+
+        return []
+
+class ActionEventAdd(Action):
+    def name(self) -> Text:
+        return "action_event_add"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        # Your custom action logic for adding events
+        dispatcher.utter_message(text="Adding the event...")
+
+        return []
+    
+class ActionEventName(Action):
+    def name(self) -> Text:
+        return "action_event_name"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        # Your custom action logic for event name
+        event_name = tracker.get_slot("event_name")
+        # Perform actions based on the event name
+        dispatcher.utter_message(text=f"Event name: {event_name}")
+
+        return []
+    
+class ActionEventInfo(Action):
+    def name(self) -> Text:
+        return "action_event_info"
+
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        # Your custom action logic for providing event information
+        dispatcher.utter_message(text="Here is the information about the event...")
+
+        return []
