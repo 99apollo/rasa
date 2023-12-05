@@ -24,9 +24,9 @@ intents:
 - table_seat
 entities:
 - user_id
-- event_name
 - event_date
 - library_name
+- event_name
 - book_name_borrow
 - book_name_search
 - table_seat_number

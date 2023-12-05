@@ -10,55 +10,11 @@ stories:
   - intent: input_library
   - action: action_find_libaray
 
-
 - story: selected library table information
   steps:
   - intent: table_info
   - action: action_get_table_information
   - action: utter_information_table_end
-
-# - story: selected library table rent
-#   steps:
-#   - intent: table_rent
-#   - action: utter_write_table_info_floor
-#   - intent: input_table_floor
-#   - action: action_table_floor
-#   - action: utter_write_table_info_seat
-#   - intent: table_seat
-#   - action: action_table_seat
-#   - action: action_get_table_rent
-#   - action: utter_renting_table_end
-
-# - story: selected library table rent
-#   steps:
-#   - intent: table_rent
-#   - action: utter_write_table_info_floor
-#   - intent: table_floor_seat
-#   - action: action_get_table_rent
-#   - action: utter_renting_table_end
-# - story: interactive_story_1
-#   steps:
-#   - intent: greet
-#   - action: utter_information_about_library_chat_bot
-#   - action: utter_show_library_list
-#   - intent: input_library
-#     entities:
-#     - library_name: main
-#   - action: action_find_libaray
-#   - slot_was_set:
-#     - library_name_slot: main
-#   - intent: table_rent
-#   - action: utter_write_table_info_floor
-#   - intent: table_floor_seat
-#     entities:
-#     - table_floor: '2'
-#     - table_seat_number: '2'
-#   - action: action_get_table_rent
-#   - slot_was_set:
-#     - table_seat_slot: '2'
-#   - slot_was_set:
-#     - table_floor_slot: '2'
-#   - action: utter_renting_table_end
 
 - story: interactive_story_1
   steps:
@@ -172,18 +128,24 @@ stories:
   - action: utter_enter_user_id
   - intent: input_user_id
     entities:
-    - user_id: 99apollo
+    - user_id: kjh
   - action: action_event_user_id
+  - slot_was_set:
+    - event_user_id_slot: kjh
   - action: utter_enter_event_name
   - intent: input_event_name
     entities:
-    - event_name: job fair
+    - event_name: computer exhibition
   - action: action_event_name
+  - slot_was_set:
+    - event_name_slot: computer exhibition
   - action: utter_enter_event_date
   - intent: input_event_date
     entities:
-    - event_date: 2023/12/18
+    - event_date: '2024-01-01'
   - action: action_event_date
+  - slot_was_set:
+    - event_date_slot: '2024-01-01'
   - action: action_event_add
   - intent: good_bye
   - action: utter_good_bye

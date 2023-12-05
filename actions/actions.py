@@ -168,32 +168,7 @@ class ActionFindBookBorrowSelected(Action):
         library_name = tracker.get_slot("library_name_slot")
         
         if library_name == "all":
-            # MySQL 서버에 연결
             dispatcher.utter_message(f"if you want to rent a book, you have to select library first! ")
-            """
-            connection1 = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="apollo~1207",
-                database="library"
-            )
-            try:
-                cursor2 = connection1.cursor()
-                cursor2.execute(f"SELECT * FROM book WHERE book_name = '{book_title}'")
-                result2 = cursor2.fetchone()
-                if result2:
-                    if result2[4] == 1:
-                        # 도서가 빌려지지 않은 상태인 경우
-                        cursor2.execute(f"UPDATE book SET book_rental = 0 WHERE book_ID = {result2[0]}")
-                        dispatcher.utter_message(f"The book '{book_title}' is now rented.")
-                    else:
-                        # 이미 빌려진 도서인 경우
-                        dispatcher.utter_message(f"The book '{book_title}' is already rented.")
-                else:
-                    dispatcher.utter_message(f"No information found for the book: {book_title} in {library_name} library.")
-            finally:
-                connection1.close()
-            """
         else:
             # MySQL 서버에 연결
             connection = mysql.connector.connect(
@@ -373,63 +348,9 @@ class ActionTableSeat(Action):
             dispatcher.utter_message(f"select library first!")
             return []
         dispatcher.utter_message(f"Table seat information: {table_seat}")
-        dispatcher.utter_message(f"Do you confirm?")
 
         return [SlotSet("table_seat_slot",table_seat)]
-
-# class ActionGetTableRent(Action):
-#     def name(self) -> Text:
-#         return "action_get_table_rent"
-
-#     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#         # 여기에 테이블 렌트 정보를 얻는 로직을 구현합니다.
-#         # 테이블 렌트에 관련된 정보를 데이터베이스에서 조회하거나 다른 소스에서 가져오는 등의 작업이 이루어집니다.
-#         print("ActionGetTableRent run")    
-#         library_name = tracker.get_slot("library_name_slot")
-#         table_floor = next(tracker.get_latest_entity_values("table_floor"), "unknown")
-#         table_seat = next(tracker.get_latest_entity_values("table_seat_number"), "unknown")
-#         if table_floor=="unknown":
-#             dispatcher.utter_message(f"enter table floor first!")
-#             return []
-#         # MySQL 서버에 연결
-#         connection = mysql.connector.connect(
-#             host="localhost",
-#             user="root",
-#             password="apollo~1207",
-#             database="library"
-#         )
-        
-#         try:
-#             cursor = connection.cursor()
-
-#             if library_name == "all":
-#                 dispatcher.utter_message(f"select library first!")
-#                 return []
-#             else:
-#                 # 특정 도서관의 테이블 정보 조회
-#                 ##UPDATE book SET book_rental = 0 WHERE book_ID = {book_id}
-#                 cursor.execute(f"UPDATE `library`.`table` SET `table_available` = 0 WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
-#                 connection.commit()
-            
-#             # 업데이트된 테이블 정보 조회
-#             cursor.execute(f"SELECT * FROM `library`.`table` WHERE `table_library` = '{library_name}' AND `table_floor` = '{table_floor}' AND `table_number` = {table_seat}")
-#             updated_table_info = cursor.fetchall()
-
-#             if updated_table_info:
-#                 # 테이블 렌트 정보 출력
-#                 for row in updated_table_info:
-#                     dispatcher.utter_message(f"Table ID: {row[0]}, Library: {row[1]}, Floor: {row[2]}, Table seat: {row[3]} is currently rented.")
-#             else:
-#                 # 대여 중인 테이블이 없는 경우
-#                 dispatcher.utter_message(f"No rented table information found for {library_name} library on floor {table_floor} and table seat {table_seat}.")
-
-#         finally:
-#             # 연결 종료
-#             connection.close()
-
-#         return [SlotSet("table_seat_slot", table_seat), SlotSet("table_floor_slot",table_floor)]
-
-
+    
 class ActionEventUserID(Action):
     def name(self) -> Text:
         return "action_event_user_id"
@@ -440,13 +361,12 @@ class ActionEventUserID(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # Your custom action logic for event user ID
-        user_id = tracker.get_slot("user_id")
+        user_id = next(tracker.get_latest_entity_values("user_id"), "unknown")
         # Perform actions based on the user ID
         dispatcher.utter_message(text=f"User ID: {user_id}")
 
-        return []
-    
+        return [SlotSet("event_user_id_slot", user_id)]
+
 class ActionEventDate(Action):
     def name(self) -> Text:
         return "action_event_date"
@@ -457,12 +377,11 @@ class ActionEventDate(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # Your custom action logic for event date
-        event_date = tracker.get_slot("event_date")
+        event_date = next(tracker.get_latest_entity_values("event_date"), "unknown")
         # Perform actions based on the event date
         dispatcher.utter_message(text=f"Event date: {event_date}")
 
-        return []
+        return [SlotSet("event_date_slot", event_date)]
 
 class ActionEventAdd(Action):
     def name(self) -> Text:
@@ -474,11 +393,58 @@ class ActionEventAdd(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        # Your custom action logic for adding events
-        dispatcher.utter_message(text="Adding the event...")
+        # Retrieve slot values
+        event_user_id = tracker.get_slot("event_user_id_slot")
+        event_date = tracker.get_slot("event_date_slot")
+        event_name = tracker.get_slot("event_name_slot")
+        library_name = tracker.get_slot("library_name_slot")
+
+        if library_name.lower() == "all":
+            dispatcher.utter_message(text="Cannot add event for 'all' libraries.")
+            return []
+
+        # Add logic to insert the new event into the database
+        success = self.insert_event(library_name, event_name, event_date, event_user_id)
+
+        if success:
+            dispatcher.utter_message(text=f"Event '{event_name}' added successfully to {library_name} library.")
+        else:
+            dispatcher.utter_message(text="Failed to add the event. Please try again.")
 
         return []
-    
+
+    def insert_event(self, library_name: str, event_name: str, event_date: str, event_user_id: str) -> bool:
+        # Replace this with actual database insertion logic
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="apollo~1207",
+            database="library"
+        )
+
+        try:
+            cursor = connection.cursor()
+
+            # Example insertion query, modify as needed
+            query = f"INSERT INTO `library`.`event` (`event_name`, `event_date`, `event_library`, `user_id`) " \
+                    f"VALUES ('{event_name}', '{event_date}', '{library_name}', '{event_user_id}')"
+
+            cursor.execute(query)
+
+            # Commit the changes to the database
+            connection.commit()
+
+            return True
+
+        except Exception as e:
+            # Handle exceptions (e.g., database errors)
+            print(f"Error inserting event: {e}")
+            return False
+
+        finally:
+            # Close the database connection
+            connection.close()
+
 class ActionEventName(Action):
     def name(self) -> Text:
         return "action_event_name"
@@ -490,12 +456,12 @@ class ActionEventName(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         # Your custom action logic for event name
-        event_name = tracker.get_slot("event_name")
+        event_name = next(tracker.get_latest_entity_values("event_name"), "unknown")
         # Perform actions based on the event name
         dispatcher.utter_message(text=f"Event name: {event_name}")
 
-        return []
-    
+        return [SlotSet("event_name_slot", event_name)]
+
 class ActionEventInfo(Action):
     def name(self) -> Text:
         return "action_event_info"
@@ -507,6 +473,56 @@ class ActionEventInfo(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         # Your custom action logic for providing event information
-        dispatcher.utter_message(text="Here is the information about the event...")
+        library_name = tracker.get_slot("library_name_slot")
+
+        if library_name.lower() == "all":
+            dispatcher.utter_message(text="Displaying information for all libraries.")
+            events = self.get_library_events(library_name)
+
+            if events:
+                # Display event information
+                for event in events:
+                    dispatcher.utter_message(f"Event Name: {event['event_name']},Date: {event['event_date']}, User ID: {event['user_id']}, library: {event['event_library']} ")
+                    # Add more event information fields as needed
+            else:
+                dispatcher.utter_message(text=f"No events found for {library_name} library.")
+        else:
+            dispatcher.utter_message(text=f"Displaying information for {library_name} library.")
+
+            # Replace the following with actual database queries or any other data source logic
+            events = self.get_library_events(library_name)
+
+            if events:
+                # Display event information
+                for event in events:
+                    dispatcher.utter_message(f"Event Name: {event['event_name']},Date: {event['event_date']}, User ID: {event['user_id']}, library: {library_name} ")
+                    # Add more event information fields as needed
+            else:
+                dispatcher.utter_message(text=f"No events found for {library_name} library.")
 
         return []
+
+    def get_library_events(self, library_name: str) -> List[Dict[str, Any]]:
+        # Replace this with actual database queries to retrieve events for the specified library
+        # This is just a placeholder function
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="apollo~1207",
+            database="library"
+        )
+        try:
+            cursor = connection.cursor(dictionary=True)
+            if library_name == "all":
+                cursor.execute(f"SELECT * FROM `library`.`event`")
+            else:
+                cursor.execute(f"SELECT * FROM `library`.`event` WHERE `event_library` = '{library_name}'")
+
+            # Fetch all events
+            events = cursor.fetchall()
+
+        finally:
+            # Close the database connection
+            connection.close()
+
+        return events
